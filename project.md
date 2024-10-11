@@ -1,8 +1,10 @@
-# **Gyro-Controlled Car** 🔥
+# **Car Control (Gyro & Self-Driving)** 🔥
 
 
 ## Introduction 🚀
-This project creates a smart car controlled by X and Y values from an MPU6050 gyroscope. The gyroscope is connected to an Arduino Uno, which sends the data to a laptop for processing. The laptop forwards the data to an ESP8266 via Wi-Fi, and the ESP8266 controls the car's DC motors through an L298N motor driver. This project explores wireless communication, IoT, and real-time motor control.
+This project creates a smart car controlled either by X and Y values from an MPU6050 gyroscope, or self-driving.
+1. The gyroscope is connected to an Arduino Uno, which sends the data to a laptop for processing. The laptop forwards the data to an ESP8266 via Wi-Fi, and the ESP8266 controls the car's DC motors through an L298N motor driver. This project explores wireless communication, IoT, and real-time motor control.
+2. self-driving and avoiding obstacles using Ultrasonic.
 
 ---
 
@@ -12,6 +14,7 @@ This project creates a smart car controlled by X and Y values from an MPU6050 gy
 3. ESP8266: Wi-Fi module used to control motors.
 4. L298N Motor Driver: Controls the DC motors.
 5. DC Motors: Used to drive the car.
+6. Ultrasonic
 
 ---
 
@@ -26,6 +29,7 @@ This project creates a smart car controlled by X and Y values from an MPU6050 gy
 
 ## System Architecture and Algorithm 🧠
 
+### mode 1 : using gyro
 ### 1. MPU6050 → Arduino
 - The MPU6050 gyroscope is connected to the Arduino Uno via I2C. The Arduino reads gyro values (X and Y axes) and transmits them to the laptop via a serial interface using the cvzone library.
 
@@ -36,7 +40,11 @@ This project creates a smart car controlled by X and Y values from an MPU6050 gy
 - The laptop sends the processed data to the ESP8266 using an HTTP POST request over Wi-Fi. The ESP8266 receives the data and sends commands to the L298N motor driver to control the car's movement.
 
 ### 4. ESP8266 → Motor Driver
-- The L298N motor driver controls the DC motors based on the orientation data received from the ESP8266.
+- The L298N motor driver controls the DC motors based on the orientation data received from the ESP8266 and the speed will changed according to its values.
+
+### mode 2 : using ultrasonic
+
+- the ulttasonic sensor reads the distance and controls the motors according to it.
 
 ---
 
@@ -54,7 +62,9 @@ This project creates a smart car controlled by X and Y values from an MPU6050 gy
 
 - Upload the Arduino code to the Arduino Uno.
 - Run the Python code to process the gyro data and send it to the ESP8266.
-- Control the car's movement by tilting the sensor or using a smartphone gyroscope.
+- choose the mode.
+- mode 1 : Control the car's movement by tilting the sensor or using a smartphone gyroscope.
+- mode 2 : the car will drive by itself.
 
 ---
 
@@ -68,14 +78,13 @@ This project creates a smart car controlled by X and Y values from an MPU6050 gy
 - Wi-Fi Communication: Sends the processed data to the ESP8266 using HTTP POST requests.
 ### ESP8266 Code
 - Wi-Fi Setup: Connects to Wi-Fi and hosts a web server.
-- Motor Control: Controls DC motor directions based on gyro values.
+- Motor Control: Controls DC motor directions based on gyro values or self-driving.
 
 ---
 
 
 ## Future Improvements 👀
-
-- Add self-driving features using sensors for obstacle detection.
+ 
 - Replace the laptop with direct communication between Arduino and ESP8266.
 - Implement traffic signal recognition using machine learning.
 
